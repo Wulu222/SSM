@@ -1,6 +1,5 @@
 package com.wangdapao.mybatis.pojo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +12,6 @@ public class User {
     private String userName;
     private String password;
     private Integer age;
-    private String gender;
+    private Character gender;
     private String email;
 }

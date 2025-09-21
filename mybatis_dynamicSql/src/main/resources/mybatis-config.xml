@@ -4,13 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <properties resource="db.properties"/>
-<!-- 全局配置-->
     <settings>
-<!--        自动映射数据库字段（下划线）为Java属性（驼峰）-->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
-<!--        延迟加载-->
+<!--        懒查询-->
         <setting name="lazyLoadingEnabled" value="true"/>
-<!--        懒加载时，是否显示对象所有属性-->
+<!--        按需查询-->
         <setting name="aggressiveLazyLoading" value="false"/>
     </settings>
     <typeAliases>

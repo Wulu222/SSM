@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 配置数据库连接信息 -->
+    <context id="MySqlContext" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- 抑制生成注释，可选 -->
+        <commentGenerator>
+<!--            禁用所有注释-->
+            <property name="suppressAllComments" value="true"/>
+<!--            禁用日期注释-->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接配置（请替换为你的实际信息） -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/ssm?serverTimezone=UTC"
+                        userId="root"
+                        password="1qaz@WSX">
+        </jdbcConnection>
+
+        <!-- Java实体类生成配置 -->
+        <javaModelGenerator targetPackage="com.wangdapao.mybatis.pojo"  targetProject=".\src\main\java">
+            <!-- 是否在当前路径下新加一层schema作为包名 -->
+            <property name="enableSubPackages" value="true"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- Mapper XML文件生成配置 -->
+        <sqlMapGenerator targetPackage="com.wangdapao.mybatis.mapper"  targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- Mapper接口生成配置 -->
+        <javaClientGenerator type="XMLMAPPER"  targetPackage="com.wangdapao.mybatis.mapper"  targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 指定要生成的数据库表 -->
+        <table tableName="t_emp" domainObjectName="Emp" catalog="ssm">
+            <!-- 可选：指定主键生成策略（如果表中主键是自增） -->
+            <generatedKey column="emp_id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table tableName="t_dept" domainObjectName="Dept" catalog="ssm">
+            <generatedKey column="dept_id" sqlStatement="MySql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>

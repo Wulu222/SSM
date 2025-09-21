@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wangdapao.mybatis</groupId>
-    <artifactId>mybatis_resultMap</artifactId>
+    <artifactId>mybatis_mbg</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -14,6 +14,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <!--        mybatis核心包-->
         <dependency>
@@ -55,6 +56,15 @@
             <artifactId>logback-classic</artifactId>
             <version>1.4.8</version>
         </dependency>
+
+<!--        mybatis-generator逆向工程依赖包-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.4.1</version>
+            <!-- 仅在编译和运行时使用，不打包到最终产物 -->
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -68,8 +78,27 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.4.1</version>
+                <configuration>
+                    <!-- 指定逆向工程配置文件路径（通常放在 src/main/resources 下） -->
+                    <configurationFile>${project.basedir}/src/main/resources/generatorConfig.xml</configurationFile>
+                    <verbose>true</verbose> <!-- 显示生成过程日志 -->
+                    <overwrite>true</overwrite> <!-- 允许覆盖已生成的文件 -->
+                </configuration>
+                <dependencies>
+                    <!-- 依赖 MySQL 驱动（与你已有的版本保持一致） -->
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>8.0.25</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
-
 
 </project>

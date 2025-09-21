@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wangdapao.mybatis.mapper.DynamicSqlMapper">
+<!--    List<User> getUserByCondition(User user);-->
+<!--trim标签-->
+    <select id="getUserByCondition" resultType="User">
+        select * from t_user
+<!--        prefix/suffix 在前面或后面添加某些内容
+            prefixOverrides/suffixOverrides 在前面或后面删除某些内容
+-->
+        <trim prefix="where" suffixOverrides="and">
+            <if test="userName != null and userName != ''">
+                username like "%"#{userName}"%" and
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password} and
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age} and
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender} and
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+        </trim>
+    </select>
+    <!--    where标签-->
+    <select id="getUserByConditionTwo" resultType="User">
+        select * from t_user
+        <where>
+            <if test="userName != null and userName != ''">
+                username like "%"#{userName}"%"
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+            <if test="gender != null and gender != ''">
+                and gender = #{gender}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+        </where>
+    </select>
+
+
+<!--        if标签-->
+    <select id="getUserByConditionOne" resultType="User">
+        select * from t_user where 1=1
+        <if test="userName != null and userName != ''">
+            and username like "%"#{userName}"%"
+        </if>
+        <if test="password != null and password != ''">
+            and password = #{password}
+        </if>
+        <if test="age != null and age != ''">
+            and age = #{age}
+        </if>
+        <if test="gender != null and gender != ''">
+            and gender = #{gender}
+        </if>
+    </select>
+
+<!--    List<User> getUserByChoose(User user);-->
+<!--    choose标签-->
+    <select id="getUserByChoose" resultType="User">
+        select * from t_user
+        <where>
+<!--            相当与if....elseif...else..一个成功，后续都不会进行-->
+            <choose>
+                <when test="userName != null and userName != ''">
+                    username like "%"#{userName}"%"
+                </when>
+                <when test="password != null and password != ''">
+                    and password = #{password}
+                </when>
+                <when test="age != null and age != ''">
+                    and age = #{age}
+                </when>
+                <when test="gender != null and gender != ''">
+                    and gender = #{gender}
+                </when>
+                <otherwise>
+                    and email = #{email}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+<!--int insertUserByForeach(@Param("users") List<User> users);-->
+<!--    foreach标签-->
+    <select id="insertUserByForeach">
+        insert into t_user values
+        <foreach collection="users" item="user" separator=",">
+            (null,#{user.userName},#{user.password},#{user.age},#{user.gender},#{user.email})
+        </foreach>
+    </select>
+
+<!--     void deleteUserByForeach(@Param("userIds") Integer[] userIds);-->
+    <select id="deleteUserByForeach">
+<!--        delete from t_user where id in-->
+<!--        <foreach collection="userIds" item="userId" separator="," open="(" close=")">-->
+<!--            #{userId}-->
+<!--        </foreach>-->
+        delete from t_user where
+        <foreach collection="userIds" item="userId" separator="or">
+            id = #{userId}
+        </foreach>
+    </select>
+
+<!--    sql标签-->
+    <sql id="selectFields">
+        id,username,password,age,gender,email
+    </sql>
+    <select id="getUserByForeach" resultType="User">
+        select
+        <include refid="selectFields"/>
+        from t_user where
+        <foreach collection="userIds" item="userId" separator="or">
+            id = #{userId}
+        </foreach>
+    </select>
+
+</mapper>

@@ -22,4 +22,65 @@
         select * from t_emp where emp_id = #{empId}
     </select>
 
+<!--    级联-->
+    <resultMap id="empAndDeptResultMapOne" type="emp">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+        <result column="dept_id" property="dept.deptId"/>
+        <result column="dept_name" property="dept.deptName"/>
+    </resultMap>
+
+<!--    association-->
+    <resultMap id="empAndDeptResultMap" type="emp">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+        <association property="dept" javaType="Dept">
+            <id column="dept_id" property="deptId"/>
+            <result column="dept_name" property="deptName"/>
+        </association>
+    </resultMap>
+<!--    Emp getEmpAndDeptById(Integer empId);-->
+    <select id="getEmpAndDeptById" resultMap="empAndDeptResultMap">
+        select
+        t_emp.*,t_dept.*
+        from t_emp
+        left join t_dept on t_emp.dept_id = t_dept.dept_id
+        where t_emp.emp_id = #{empId}
+    </select>
+
+<!--    分布查询第一步-->
+    <resultMap id="empAndDeptByStepResultMap" type="emp">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName"/>
+        <result column="age" property="age"/>
+        <result column="gender" property="gender"/>
+<!--        column: 获取的列名
+            property: 封装的属性名
+            select: 要查询的sql
+            fetchType: 默认是lazy懒加载，设置为eager eager立即加载| lazy懒加载
+-->
+        <association property="dept" fetchType="eager"
+                     select="com.wangdapao.mybatis.mapper.DeptMapper.getDeptById"
+                     column="dept_id"
+        />
+    </resultMap>
+<!--    Emp getEmpAndDeptByStepOne(Integer empId);-->
+    <select id="getEmpAndDeptByStepOne" resultMap="empAndDeptByStepResultMap">
+        select
+        t_emp.*,t_dept.*
+        from t_emp
+        left join t_dept on t_emp.dept_id = t_dept.dept_id
+        where t_emp.emp_id = #{empId}
+    </select>
+
+<!--    List<Emp> getEmpByDeptId(@Param("deptId") Integer deptId);-->
+    <select id="getEmpByDeptId" resultType="Emp">
+        select * from t_emp where dept_id = #{deptId}
+    </select>
+
+
 </mapper>
