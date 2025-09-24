@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="studentOne" class="com.wangdapao.spring.pojo.Student"/>
+
+<!--    setting注入-->
+    <bean id="studentTwo" class="com.wangdapao.spring.pojo.Student">
+        <property name="name" value="wangdapao"/>
+        <property name="age" value="18"/>
+        <property name="sex" value="男"/>
+        <property name="address" value="上海"/>
+        <property name="phone" value="123456789"/>
+    </bean>
+
+<!--    构造器注入-->
+    <bean name="studentThree" class="com.wangdapao.spring.pojo.Student">
+        <constructor-arg value="xiaozhao" name="name" />
+        <constructor-arg value="18" name="age" />
+        <constructor-arg value="女" name="sex" />
+        <constructor-arg value="光明顶" name="address" />
+        <constructor-arg value="45687948" name="phone"/>
+    </bean>
+
+<!--    特殊字符写入-->
+    <bean name="studentFour" class="com.wangdapao.spring.pojo.Student">
+<!--        大于&gt 小于&lt-->
+        <property name="name" value="&lt;张三丰&gt;"/>
+<!--        null输入-->
+        <property name="address">
+            <null/>
+        </property>
+
+<!--        CADATA-->
+        <property name="sex">
+            <value><![CDATA[ &不像人*&…………% ]]></value>
+        </property>
+    </bean>
+
+<!--    类对象引用-->
+    <bean name="studentFive" class="com.wangdapao.spring.pojo.Student">
+        <property name="clazz" ref="classOne"/>
+    </bean>
+    <bean name="classOne" class="com.wangdapao.spring.pojo.Clazz">
+        <property name="cid" value="1"/>
+        <property name="cname" value="一班"/>
+    </bean>
+
+<!--    级联-->
+    <bean name="studentSix" class="com.wangdapao.spring.pojo.Student">
+<!--        需要提前实例化clazz对象才可以级联-->
+        <property name="clazz" ref="classOne"/>
+        <property name="clazz.cid" value="2"/>
+        <property name="clazz.cname" value="二班"/>
+    </bean>
+
+<!--    内部bean-->
+    <bean name="studentSeven" class="com.wangdapao.spring.pojo.Student">
+        <property name="clazz">
+<!--            因为内部bean不能被外面访问，所以可以不必写内部bean的 id-->
+            <bean class="com.wangdapao.spring.pojo.Clazz">
+                <property name="cid" value="3"/>
+                <property name="cname" value="三班"/>
+            </bean>
+        </property>
+    </bean>
+
+<!--    为数组赋值-->
+    <bean name="studentEight" class="com.wangdapao.spring.pojo.Student">
+        <property name="hobbies">
+            <array>
+                <value>唱</value>
+                <value>跳</value>
+                <value>rap</value>
+                <value>篮球</value>
+            </array>
+        </property>
+    </bean>
+
+<!--    为集合赋值-->
+<!--    List-->
+    <bean name="classTwo" class="com.wangdapao.spring.pojo.Clazz">
+        <property name="cid" value="4"/>
+        <property name="cname" value="四班"/>
+        <property name="students">
+            <list>
+                <ref bean="studentOne"/>
+                <ref bean="studentTwo"/>
+                <ref bean="studentThree"/>
+                <ref bean="studentFour"/>
+            </list>
+        </property>
+    </bean>
+
+    <util:list id="studentsList">
+        <ref bean="studentOne"/>
+        <ref bean="studentTwo"/>
+        <ref bean="studentThree"/>
+    </util:list>
+    <bean name="classThree" class="com.wangdapao.spring.pojo.Clazz">
+        <property name="cid" value="5"/>
+        <property name="cname" value="五班"/>
+        <property name="students" ref="studentsList"/>
+    </bean>
+
+<!--    Map-->
+    <bean id="teacherOne" class="com.wangdapao.spring.pojo.Teacher">
+        <property name="teacherName" value="王大锤"/>
+        <property name="students">
+            <map>
+                <entry key="1" value-ref="studentEight"/>
+                <entry key="2" value-ref="studentSeven"/>
+                <entry key="3" value-ref="studentSix"/>
+                <entry key="4" value-ref="studentFive"/>
+            </map>
+        </property>
+    </bean>
+
+    <util:map id="studentsMap">
+        <entry key="1" value-ref="studentEight"/>
+        <entry key="2" value-ref="studentSeven"/>
+        <entry key="3" value-ref="studentSix"/>
+    </util:map>
+    <bean id="teacherTwo" class="com.wangdapao.spring.pojo.Teacher">
+        <property name="teacherName" value="王二"/>
+        <property name="students" ref="studentsMap"/>
+    </bean>
+
+<!--    p:命名空间-->
+    <bean id="teacherThree" class="com.wangdapao.spring.pojo.Teacher"
+          p:teacherName="王三"
+          p:students-ref="studentsMap">
+    </bean>
+</beans>
