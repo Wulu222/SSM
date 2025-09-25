@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user" class="com.wangdapao.spring.pojo.User" init-method="init" destroy-method="destroy">
+        <property name="name" value="王大锤"/>
+        <property name="age" value="18"/>
+        <property name="sex" value="男"/>
+        <property name="address" value="上海"/>
+    </bean>
+
+    <bean id="myBeanPostprocessor" class="com.wangdapao.spring.process.MyBeanPostprocessor"/>
+</beans>
