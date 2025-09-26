@@ -7,7 +7,7 @@
 <!--        <property name="userService" ref="userService"/>-->
     </bean>
 
-    <bean class="com.wangdapao.spring.service.impl.UserServiceImpl" id="userService" autowire="byName">
+    <bean class="com.wangdapao.spring.service.impl.UserServiceImpl" id="userService" autowire="byType">
 <!--        <property name="userDao" ref="userDao"/>-->
     </bean>
 

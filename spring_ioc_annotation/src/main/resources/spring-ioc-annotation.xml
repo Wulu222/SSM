@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd">
+
+<!--    扫描组件-->
+    <context:component-scan base-package="com.wangdapao.spring"/>
+
+    <bean class="com.wangdapao.spring.service.impl.UserServiceImpl" id="userService"/>
+    <bean class="com.wangdapao.spring.dao.impl.UserDaoImpl" id="userDao"/>
+
+<!--    对于组件的扫描规则：
+        1. 默认情况下，Spring会扫描指定包下的所有类，并自动将符合条件的类标识为组件
+        use-default-filters="false" 关闭默认的过滤规则,默认为true
+        2.标签<context:exclude-filter>去除某个组件的扫描规则
+        type:<annotation注解|assignable类>
+        3.标签<context:include-filter>只对某个组件的扫描规则
+-->
+<!--    <context:component-scan base-package="com.wangdapao.spring" use-default-filters="false">-->
+<!--&lt;!&ndash;        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <context:exclude-filter type="assignable" expression="com.wangdapao.spring.controller.UserController"/>&ndash;&gt;-->
+<!--        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+
+</beans>
