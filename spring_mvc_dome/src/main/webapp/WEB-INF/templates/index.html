@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>首页</h1>
+<h2>测试@RequestMapping的规则，属性值匹配</h2>
+<a th:href="@{/test/success}">test-success</a><br>
+<a th:href="@{/test/success}">test-abc</a><br>
+<a th:href="@{/success}">success</a><br>
+<form th:action="@{/test/success}" method="post">
+    <input type="submit" value="揍你">
+</form>
+
+<h2>测试@RequestMapping的规则，ant风格，占位符rest</h2>
+<a th:href="@{/test/aaa/test/ant}">ant风格的路径--> /a?a/ant </a><br>
+<a th:href="@{/test/aba/test/ant}">ant风格的路径--> /a?a/ant </a><br>
+<a th:href="@{/test/aaaaa/test/ant}">ant风格的路径--> /a*a/ant </a><br>
+<a th:href="@{/test/test/ant/a/a/aa}">ant风格的路径--> /ant/**</a><br>
+
+<a th:href="@{/test/test/rest/root/123456}">rest的占位符使用--> /test/rest/{username}/{id}</a><br>
+
+<hr>
+<h2>测试请求参数的获取--ServletAPI</h2>
+<form th:action="@{/param/servletAPI}" method="post">
+    用户名:<input type="text" name="username"><br>
+    密码:<input type="password" name="password"><br>
+    <input type="submit" value="登录"><br>
+</form>
+
+<hr>
+<h2>测试请求参数的获取--Controller</h2>
+<form th:action="@{/param/controller}" method="post">
+    用户名:<input type="text" name="username"><br>
+    密码:<input type="password" name="password"><br>
+    <input type="submit" value="登录"><br>
+</form>
+
+<hr>
+<h2>通过pojo获取请求参数</h2>
+<form th:action="@{/param/pojo}" method="post">
+    用户名:<input type="text" name="username"><br>
+    密码:<input type="password" name="password"><br>
+    <input type="submit" value="登录"><br>
+</form>
+<hr>
+<h2>测试域数据共享</h2>
+<a th:href="@{/scope/mav}">通过ModelAndView向请求域共享数据</a><br>
+<a th:href="@{/scope/model}">通过Model向请求域共享数据</a><br>
+<a th:href="@{/scope/modelmap}">通过ModelMap向请求域共享数据</a><br>
+<a th:href="@{/scope/map}">通过Map向请求域共享数据</a><br>
+<a th:href="@{/scope/session}">通过Session向会话域共享数据</a><br>
+<a th:href="@{/scope/application}">通过Application向应用域共享数据</a><br>
+
+</body>
+</html>
